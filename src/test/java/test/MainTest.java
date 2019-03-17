@@ -1,10 +1,10 @@
 package test;
 
+import com.codeborne.selenide.Selenide;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static com.codeborne.selenide.CollectionCondition.texts;
-import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Selenide.open;
 
 public class MainTest {
@@ -15,6 +15,11 @@ public class MainTest {
     void setUp() {
         cp.setUp();
         open("https://www.sberbank.ru/ru/quotes/currencies");
+    }
+
+    @AfterEach
+    void teardown() {
+        Selenide.close();
     }
 
     @Test
@@ -29,6 +34,6 @@ public class MainTest {
 
     @Test
     void checkCurrTest() {
-        cp.euroCheck();
+        cp.currCheck();
     }
 }

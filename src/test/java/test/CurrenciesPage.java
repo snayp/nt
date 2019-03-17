@@ -8,8 +8,7 @@ import com.codeborne.selenide.SelenideElement;
 import static com.codeborne.selenide.CollectionCondition.texts;
 import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selectors.byAttribute;
-import static com.codeborne.selenide.Selenide.$;
-import static com.codeborne.selenide.Selenide.$$;
+import static com.codeborne.selenide.Selenide.*;
 
 public class CurrenciesPage {
     SelenideElement title = $("h1.header_widget");
@@ -19,11 +18,9 @@ public class CurrenciesPage {
     SelenideElement curensies = $(byAttribute("role", "group"));
     ElementsCollection currCheckBox = $$(byAttribute("role", "checkbox"));
     SelenideElement radioGroup = $(".kit-radio-group");
-    ElementsCollection ratesDetails = $$(".rates-details");
+    ElementsCollection ratesDetails = $$("h2.rates-details__graph-title");
     SelenideElement ratesRightHeader = $(".rates-current__table tr", 0);
-    ElementsCollection ratesRightRowsUSD = $$(".rates-current__table-row").excludeWith(cssClass("rates-current__table-row_header"));
-    ElementsCollection ratesRightRowsAll = $$(".rates-current__table-row.rates-current__table-row_odd").excludeWith(cssClass("rates-current__table-row_header"));
-    ElementsCollection ratesRightCell = $$("td.rates-current__table-cell rates-current__table-cell_column_name").excludeWith(cssClass("rates-current__table-cell_column_name"));
+    ElementsCollection ratesRightCell = $$("td.rates-current__table-cell.rates-current__table-cell_column_name").excludeWith(text("Валюта"));
 
 
     public void setUp() {
@@ -57,18 +54,24 @@ public class CurrenciesPage {
 
     void ratesRightCheck() {
         ratesRightHeader.shouldHave(text("Валюта Покупка Продажа"));
-        ratesRightRowsUSD.shouldHave(texts("USD / RUB"));
+        ratesRightCell.shouldHave(texts("USD / RUB"));
     }
 
     void detailsRatesUSDCheck() {
         ratesDetails.shouldHave(texts("Доллар США"));
     }
 
-    //TODO доделать тест на выбор разных валют.
-    void euroCheck() {
+    void currCheck() {
         currCheckBox.findBy(text("Евро")).click();
-        ratesRightRowsAll.shouldHave(texts("EUR / RUB"));
-        ratesDetails.shouldHave(texts("Евро"));
+        ratesRightCell.shouldHave(texts("EUR / RUB","USD / RUB"));
+        ratesDetails.shouldHave(texts("Евро","Доллар США"));
+        header.click();
+        allCurr.findBy(text("Швейцарский франк")).click();
+        ratesRightCell.shouldHave(texts("EUR / RUB","USD / RUB", "CHF / RUB"));
+        ratesDetails.shouldHave(texts("Евро","Доллар США","Швейцарский франк"));
+        currCheckBox.findBy(text("Швейцарский франк")).click();
+        ratesRightCell.shouldHave(texts("EUR / RUB","USD / RUB"));
+        ratesDetails.shouldHave(texts("Евро","Доллар США"));
     }
 
 }
