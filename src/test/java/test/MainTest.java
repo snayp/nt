@@ -29,7 +29,6 @@ public class MainTest {
 
     @Test
     void checkCurrTest() {
-//        cp.ratesRightRows.shouldHave(texts("USD / RUB"));
-//        cp.euroCheck();
+        cp.euroCheck();
     }
 }
