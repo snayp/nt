@@ -21,7 +21,8 @@ public class CurrenciesPage {
     SelenideElement radioGroup = $(".kit-radio-group");
     ElementsCollection ratesDetails = $$(".rates-details");
     SelenideElement ratesRightHeader = $(".rates-current__table tr", 0);
-    ElementsCollection ratesRightRows = $$(".rates-current__table-row").excludeWith(cssClass("rates-current__table-row_header"));
+    ElementsCollection ratesRightRowsUSD = $$(".rates-current__table-row").excludeWith(cssClass("rates-current__table-row_header"));
+    ElementsCollection ratesRightRowsAll = $$(".rates-current__table-row.rates-current__table-row_odd").excludeWith(cssClass("rates-current__table-row_header"));
     ElementsCollection ratesRightCell = $$("td.rates-current__table-cell rates-current__table-cell_column_name").excludeWith(cssClass("rates-current__table-cell_column_name"));
 
 
@@ -56,7 +57,7 @@ public class CurrenciesPage {
 
     void ratesRightCheck() {
         ratesRightHeader.shouldHave(text("Валюта Покупка Продажа"));
-        ratesRightRows.shouldHave(texts("USD / RUB"));
+        ratesRightRowsUSD.shouldHave(texts("USD / RUB"));
     }
 
     void detailsRatesUSDCheck() {
@@ -66,8 +67,8 @@ public class CurrenciesPage {
     //TODO доделать тест на выбор разных валют.
     void euroCheck() {
         currCheckBox.findBy(text("Евро")).click();
-        ratesRightRows.shouldHave(texts("EUR / RUB"));
-        ratesDetails.shouldHave(texts("Доллар США", "Евро"));
+        ratesRightRowsAll.shouldHave(texts("EUR / RUB"));
+        ratesDetails.shouldHave(texts("Евро"));
     }
 
 }
